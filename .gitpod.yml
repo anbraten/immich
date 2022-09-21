@@ -1,0 +1,21 @@
+tasks:
+  - name: Immich
+    init: |
+      cd docker/
+      cp .env.example .env
+      sed -i "s,UPLOAD_LOCATION=.*,UPLOAD_LOCATION=./data," .env
+      echo "VITE_SERVER_ENDPOINT=https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}/api" >> .env
+      docker-compose -f docker-compose.dev.yml pull
+    command: docker-compose -f docker-compose.dev.yml up
+
+vscode:
+  extensions:
+    - editorconfig.editorconfig
+    - dbaeumer.vscode-eslint
+    - esbenp.prettier-vscode
+    - stylelint.vscode-stylelint
+    - streetsidesoftware.code-spell-checker
+
+ports:
+  - name: Immich
+    port: 2283
