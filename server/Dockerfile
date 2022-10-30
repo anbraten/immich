@@ -1,4 +1,3 @@
-# Build stage
 FROM node:16-alpine3.14 as builder
 
 WORKDIR /usr/src/app
@@ -12,11 +11,12 @@ COPY . .
 
 RUN npm run build
 
-
 # Prod stage
 FROM node:16-alpine3.14
 
 WORKDIR /usr/src/app
+COPY LICENSE /licenses/LICENSE.txt
+COPY LICENSE /LICENSE
 
 COPY package.json package-lock.json ./
 COPY start-server.sh start-microservices.sh ./
@@ -28,5 +28,7 @@ COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY --from=builder /usr/src/app/dist ./dist
 
 RUN npm prune --production
+
+VOLUME /usr/src/app/upload
 
 EXPOSE 3001

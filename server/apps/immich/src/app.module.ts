@@ -15,7 +15,7 @@ import { AppController } from './app.controller';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ScheduleTasksModule } from './modules/schedule-tasks/schedule-tasks.module';
 import { DatabaseModule } from '@app/database';
-import { AppLoggerMiddleware } from './middlewares/app-logger.middleware';
+import { JobModule } from './api-v1/job/job.module';
 
 @Module({
   imports: [
@@ -56,6 +56,8 @@ import { AppLoggerMiddleware } from './middlewares/app-logger.middleware';
     ScheduleModule.forRoot(),
 
     ScheduleTasksModule,
+
+    JobModule,
   ],
   controllers: [AppController],
   providers: [],
@@ -65,7 +67,7 @@ export class AppModule implements NestModule {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   configure(consumer: MiddlewareConsumer): void {
     if (process.env.NODE_ENV == 'development') {
-      consumer.apply(AppLoggerMiddleware).forRoutes('*');
+      // consumer.apply(AppLoggerMiddleware).forRoutes('*');
     }
   }
 }
